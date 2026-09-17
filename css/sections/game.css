@@ -1,0 +1,257 @@
+/* ─── GAME SECTION ───────────────────────────────────────── */
+.game-section {
+    position: relative;
+    z-index: 1;
+    padding: 5rem 0 6rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+    overflow-x: clip; /* prevent 3D carousel from triggering horizontal scroll */
+}
+
+.game-hero {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.game-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--accent);
+}
+
+.game-title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #fff;
+    line-height: 1;
+}
+
+.game-sub {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.45);
+    letter-spacing: 0.5px;
+}
+
+.game-container {
+    position: relative;
+    width: min(1000px, 92vw);
+    border-radius: 24px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+    background: rgba(8, 8, 8, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+/* ── HUD ─────────────────────────────────────────────────── */
+.game-hud {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.hud-left,
+.hud-right {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+}
+
+.hud-right {
+    align-items: flex-end;
+}
+
+.hud-label {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 3px;
+    color: rgba(255, 255, 255, 0.35);
+    text-transform: uppercase;
+}
+
+.hud-value {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+}
+
+.hud-center {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.life-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1.5px solid rgba(255, 255, 255, 0.2);
+    transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.life-dot.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 0 0 10px var(--accent);
+}
+
+/* ── Canvas ────────────────────────────────────────────── */
+#game-canvas {
+    display: block;
+    width: 100%;
+    cursor: none;
+    /* desktop — custom cursor hides it */
+    touch-action: pan-y;
+    /* allow scroll past by default; JS sets none during play */
+}
+
+/* On touch devices, restore default cursor so taps are detected correctly */
+@media (pointer: coarse) {
+    #game-canvas {
+        cursor: auto;
+    }
+}
+
+/* ── Overlay ─────────────────────────────────────────────── */
+.game-overlay {
+    position: absolute;
+    inset: 0;
+    top: 53px;
+    /* below HUD */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.2rem;
+    background: rgba(4, 4, 4, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 20;
+    transition: opacity 0.4s ease;
+}
+
+.game-overlay-logo {
+    width: 72px;
+    filter: drop-shadow(0 0 20px var(--accent)) drop-shadow(0 0 6px var(--accent));
+    animation: logo-glow-pulse 2s ease-in-out infinite alternate;
+}
+
+@keyframes logo-glow-pulse {
+    from {
+        filter: drop-shadow(0 0 16px var(--accent)) drop-shadow(0 0 4px var(--accent));
+    }
+
+    to {
+        filter: drop-shadow(0 0 36px var(--accent)) drop-shadow(0 0 12px var(--accent));
+    }
+}
+
+.overlay-title {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+.overlay-sub {
+    font-size: 0.88rem;
+    color: rgba(255, 255, 255, 0.5);
+    text-align: center;
+    line-height: 1.7;
+    letter-spacing: 0.3px;
+}
+
+/* Show correct instruction for device type */
+.instruction-touch {
+    display: none;
+}
+
+@media (pointer: coarse) {
+    .instruction-mouse {
+        display: none;
+    }
+
+    .instruction-touch {
+        display: inline;
+    }
+}
+
+/* ── Mobile overlay scaling ───────────────────────────── */
+@media (max-width: 480px) {
+    .game-overlay {
+        gap: 0.6rem;
+        padding: 0.5rem;
+    }
+
+    .game-overlay-logo {
+        width: 48px;
+    }
+
+    .overlay-title {
+        font-size: 1.4rem;
+    }
+
+    .overlay-sub {
+        font-size: 0.75rem;
+        padding: 0 0.75rem;
+    }
+
+    .overlay-btn {
+        padding: 0.55rem 1.8rem;
+        font-size: 0.8rem;
+        margin-top: 0.2rem;
+    }
+}
+
+.overlay-btn {
+    margin-top: 0.5rem;
+    padding: 0.7rem 2.5rem;
+    border: 1px solid var(--accent);
+    border-radius: 99px;
+    color: var(--accent);
+    background: transparent;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    outline: none;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.overlay-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+    z-index: -1;
+}
+
+.overlay-btn:hover {
+    color: #000;
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--accent);
+}
+
+.overlay-btn:hover::before {
+    transform: scaleX(1);
+}

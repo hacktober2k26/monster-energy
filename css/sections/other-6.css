@@ -1,0 +1,8 @@
+/* ─── HOME SECTION ───────────────────────────────────────── */
+.home-section {
+    position: relative;
+    height: calc(100vh - var(--nav-h) - 3rem); /* full viewport minus navbar */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}

@@ -1,0 +1,1010 @@
+/* flavours section */
+.flavours-section {
+    position: relative;
+    z-index: 1;
+}
+
+/* scrollbar */
+::-webkit-scrollbar {
+    width: 3px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--accent);
+    border-radius: 99px;
+}
+
+/* game section */
+.game-section {
+    position: relative;
+    z-index: 1;
+    padding: 5rem 0 6rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+    overflow-x: clip; /* prevent 3D carousel from causing horizontal scroll */
+}
+
+.game-hero {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.game-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--accent);
+}
+
+.game-title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #fff;
+    line-height: 1;
+}
+
+.game-sub {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.45);
+    letter-spacing: 0.5px;
+}
+
+/* ── Game Hub: 3D Coverflow ── */
+.game-hub {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 100%;
+    height: 600px;
+    perspective: 1500px;
+    transform-style: preserve-3d;
+    overflow: visible;
+    padding: 2rem 0;
+    touch-action: pan-y; /* allow vertical scroll, JS handles horizontal swipe */
+}
+
+@media (max-width: 900px) {
+    .game-hub { height: 500px; }
+}
+@media (max-width: 600px) {
+    /* Taller on phones so HUD + canvas aren't squished */
+    .game-hub {
+        height: 460px;
+        padding: 1rem 0;
+        overflow-x: clip; /* clip 3D cards that bleed out, preserve perspective */
+    }
+}
+@media (max-width: 400px) {
+    .game-hub { height: 430px; }
+}
+
+/* ── Mobile swipe nav (arrow btns + dot pager) ── */
+.game-mobile-nav {
+    display: none; /* hidden on desktop — shown via media query below */
+    align-items: center;
+    justify-content: center;
+    gap: 1.2rem;
+    padding: 0.5rem 0 0;
+}
+
+.game-mob-arrow {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+    flex-shrink: 0;
+}
+
+.game-mob-arrow:active {
+    background: rgba(255, 255, 255, 0.12);
+    color: var(--accent);
+    border-color: var(--accent);
+    transform: scale(0.95);
+}
+
+.game-mob-dots {
+    display: flex;
+    gap: 0.55rem;
+    align-items: center;
+}
+
+.game-mob-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+    display: block;
+    flex-shrink: 0;
+}
+
+.game-mob-dot--active {
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--accent);
+    width: 20px;
+    border-radius: 4px;
+}
+
+@media (max-width: 768px) {
+    .game-mobile-nav {
+        display: flex;
+    }
+}
+
+/* ── Individual game card ── */
+.game-card {
+    position: absolute;
+    width: min(860px, 88vw);
+    border-radius: 28px;
+    overflow: visible;
+    cursor: default;
+    background: transparent;
+    /* GSAP handles transform, z-index, opacity */
+}
+
+/* Inner container */
+.game-container {
+    position: relative;
+    width: 100%;
+    border-radius: 24px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+    background: rgba(8, 8, 8, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+/* Canvas should just be block-level, size set by JS */
+.game-container canvas {
+    display: block;
+    width: 100%;
+}
+
+/* ── Pointer events ── */
+/* JS handles switching via bounding-rect hit testing (useCapture),
+   so we only need CSS to manage in-game interactivity. */
+
+/* Active card: everything interactive as normal */
+.game-card--active {
+    pointer-events: auto;
+}
+.game-card--active .game-card-preview-label {
+    pointer-events: none;
+    opacity: 0;
+}
+
+/* Preview cards: show label, block game interaction, cursor:pointer */
+.game-card--preview {
+    pointer-events: auto;
+    cursor: pointer;
+}
+.game-card--preview .game-container {
+    pointer-events: none;
+}
+
+/* ── Preview label overlay ── */
+.game-card-preview-label {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 0.6rem;
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(4px);
+    border-radius: 24px;
+    opacity: 0;
+    pointer-events: none; /* default: invisible labels don't block anything */
+    transition: opacity 0.35s ease, border-color 0.35s ease;
+    z-index: 30;
+    border: 1.5px solid rgba(127, 193, 43, 0);
+}
+
+.game-card-preview-label::before {
+    content: '▶ PLAY';
+    font-size: 0.75rem;
+    letter-spacing: 4px;
+    color: var(--accent);
+    display: block;
+}
+
+/* On preview cards: show label & make it clickable */
+.game-card--preview .game-card-preview-label {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.game-card--preview:hover .game-card-preview-label {
+    border-color: var(--accent);
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.game-card--preview:hover .game-container {
+    box-shadow: 0 0 0 1.5px var(--accent), 0 20px 60px rgba(0,0,0,0.5);
+}
+
+/* HUD */
+.game-hud {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1.25rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.hud-left,
+.hud-right {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+}
+
+.hud-right {
+    align-items: flex-end;
+}
+
+.hud-label {
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 3px;
+    color: rgba(255, 255, 255, 0.35);
+    text-transform: uppercase;
+}
+
+.hud-value {
+    font-size: clamp(1rem, 2.5vw, 1.6rem);
+    font-weight: 700;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+}
+
+.hud-center {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.life-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1.5px solid rgba(255, 255, 255, 0.2);
+    transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.life-dot.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 0 0 10px var(--accent);
+}
+
+/* canvas — cursor:none on mouse devices, auto on touch */
+#game-canvas {
+    display: block;
+    width: 100%;
+    cursor: none;
+}
+/* On touch devices: restore normal cursor */
+@media (pointer: coarse) {
+    .game-container canvas { cursor: auto; }
+}
+
+/* game overlay */
+.game-overlay {
+    position: absolute;
+    inset: 0;
+    top: 53px;
+    /* below HUD */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.2rem;
+    background: rgba(4, 4, 4, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 20;
+    transition: opacity 0.4s ease;
+}
+
+.game-overlay-logo {
+    width: 72px;
+    filter: drop-shadow(0 0 20px var(--accent)) drop-shadow(0 0 6px var(--accent));
+    animation: logo-glow-pulse 2s ease-in-out infinite alternate;
+}
+
+@keyframes logo-glow-pulse {
+    from {
+        filter: drop-shadow(0 0 16px var(--accent)) drop-shadow(0 0 4px var(--accent));
+    }
+
+    to {
+        filter: drop-shadow(0 0 36px var(--accent)) drop-shadow(0 0 12px var(--accent));
+    }
+}
+
+.overlay-title {
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+.overlay-sub {
+    font-size: clamp(0.75rem, 2vw, 0.88rem);
+    color: rgba(255, 255, 255, 0.5);
+    text-align: center;
+    line-height: 1.7;
+    letter-spacing: 0.3px;
+    padding: 0 1rem;
+}
+
+/* Show/hide instruction text based on input device */
+.instruction-mouse { display: inline; }
+.instruction-touch  { display: none; }
+@media (pointer: coarse) {
+    .instruction-mouse { display: none; }
+    .instruction-touch  { display: inline; }
+}
+
+.overlay-btn {
+    margin-top: 0.5rem;
+    padding: 0.7rem 2.5rem;
+    border: 1px solid var(--accent);
+    border-radius: 99px;
+    color: var(--accent);
+    background: transparent;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    outline: none;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.overlay-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+    z-index: -1;
+}
+
+.overlay-btn:hover {
+    color: #000;
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--accent);
+}
+
+.overlay-btn:hover::before {
+    transform: scaleX(1);
+}
+
+/* events section */
+.events-section {
+    position: relative;
+    z-index: 1;
+    padding-bottom: 6rem;
+    overflow: hidden;
+}
+
+/* section heading */
+.ev-heading {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 3.5rem;
+    padding: 0 2rem;
+}
+
+.ev-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--accent);
+}
+
+.ev-title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #fff;
+    line-height: 1.1;
+}
+
+.ev-title-accent {
+    color: var(--accent);
+    text-shadow: 0 0 20px var(--accent);
+}
+
+.ev-sub {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.4);
+    max-width: 500px;
+    line-height: 1.7;
+}
+
+/* carousel wrapper */
+.ev-carousel-wrap {
+    position: relative;
+    max-width: 1440px;
+    margin: 0 auto;
+}
+
+/* carousel arrows */
+.ev-nav-btn {
+    position: absolute;
+    top: calc(50% - 2rem);
+    /* Account for bottom padding */
+    transform: translateY(-50%);
+    width: 60px;
+    height: 60px;
+    background: rgba(10, 10, 12, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    color: #fff;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    backdrop-filter: blur(8px);
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.ev-nav-btn:hover {
+    background: var(--accent);
+    color: #000;
+    border-color: var(--accent);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.ev-prev {
+    left: 1.5rem;
+}
+
+.ev-next {
+    right: 1.5rem;
+}
+
+/* layout */
+.ev-layout {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 1.5rem;
+    padding: 2rem 4rem 4rem 4rem;
+    /* Additional bottom padding for hover shadows */
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 4rem;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+}
+
+.ev-layout::-webkit-scrollbar {
+    height: 8px;
+}
+
+.ev-layout::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 10px;
+    margin-inline: 4rem; /* match ev-layout padding */
+}
+
+.ev-layout::-webkit-scrollbar-thumb {
+    background: var(--accent);
+    border-radius: 10px;
+}
+
+/* event card */
+.ev-card {
+    flex-shrink: 0;
+    scroll-snap-align: start;
+    width: min(550px, 85vw);
+    /* Uniform width for all cards */
+    height: 560px;
+    /* Uniform height */
+    position: relative;
+    border-radius: 24px;
+    /* Slightly more rounded for premium feel */
+    overflow: hidden;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: #0a0a0b;
+    transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1),
+        border-color 0.3s ease,
+        box-shadow 0.5s ease;
+}
+
+.ev-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--accent);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), 0 0 20px rgba(230, 194, 0, 0.1);
+}
+
+.ev-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+    filter: brightness(0.65) contrast(1.1);
+    will-change: transform;
+    /* GPU-promote card zoom on hover */
+}
+
+.ev-card:hover .ev-card-img {
+    transform: scale(1.08);
+}
+
+
+
+/* ── Card Overlay ────────────────────────────────────────── */
+.ev-card-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 2rem;
+    /* Increased padding */
+    background: linear-gradient(to top,
+            rgba(0, 0, 0, 0.95) 0%,
+            rgba(0, 0, 0, 0.4) 40%,
+            transparent 100%);
+    transition: background 0.4s ease;
+}
+
+
+
+.ev-card-tag {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.6rem;
+}
+
+.ev-card-title {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
+}
+
+
+
+.ev-card-date {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 0.02em;
+    display: block;
+    margin-bottom: 0.8rem;
+}
+
+
+
+.ev-card-cta {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.ev-card:hover .ev-card-cta {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* event modal */
+.ev-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 5000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+
+    /* The blurred background */
+    backdrop-filter: blur(20px) brightness(0.35) saturate(1.5);
+    -webkit-backdrop-filter: blur(20px) brightness(0.35) saturate(1.5);
+    background: rgba(0, 0, 0, 0.6);
+
+    /* Hidden by default */
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease, backdrop-filter 0.4s ease;
+}
+
+.ev-modal-backdrop.open {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.ev-modal {
+    position: relative;
+    width: min(860px, 92vw);
+    max-height: 90vh;
+    background: rgba(12, 12, 14, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 28px;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    box-shadow: 0 40px 120px rgba(0, 0, 0, 0.8);
+    transform: translateY(30px) scale(0.97);
+    transition: transform 0.45s cubic-bezier(0.23, 1, 0.32, 1);
+    backdrop-filter: blur(12px) saturate(160%);
+}
+
+.ev-modal-backdrop.open .ev-modal {
+    transform: translateY(0) scale(1);
+}
+
+/* Close button */
+.ev-modal-close {
+    position: absolute;
+    top: 1.2rem;
+    right: 1.2rem;
+    z-index: 10;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(8px);
+}
+
+.ev-modal-close:hover {
+    background: rgba(255, 255, 255, 0.18);
+    color: #fff;
+}
+
+/* Image panel */
+.ev-modal-img-wrap {
+    position: relative;
+    overflow: hidden;
+}
+
+.ev-modal-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: brightness(0.8) saturate(1.3);
+}
+
+.ev-modal-img-glow {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(127, 193, 43, 0.2) 0%, transparent 60%);
+    transition: background 0.5s ease;
+}
+
+/* Body panel */
+.ev-modal-body {
+    padding: 2.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    overflow-y: auto;
+}
+
+.ev-modal-tag {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--accent);
+}
+
+.ev-modal-title {
+    font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.15;
+}
+
+.ev-modal-date {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 1px;
+}
+
+.ev-modal-desc {
+    font-size: 0.9rem;
+    line-height: 1.85;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.ev-modal-btn {
+    margin-top: 0.5rem;
+    padding: 0.7rem 1.8rem;
+    border: 1px solid var(--accent);
+    border-radius: 99px;
+    color: var(--accent);
+    background: transparent;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    width: fit-content;
+    transition: all 0.3s ease;
+}
+
+.ev-modal-btn:hover {
+    background: var(--accent);
+    color: #000;
+}
+
+/* news section */
+.news-section {
+    position: relative;
+    z-index: 1;
+    padding: 6rem 0;
+    overflow: hidden;
+}
+
+/* ── Section Heading ─────────────────────────────────────── */
+.nw-heading {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 3.5rem;
+    padding: 0 2rem;
+}
+
+.nw-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--accent);
+}
+
+.nw-title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: #fff;
+    line-height: 1.1;
+}
+
+.nw-title-accent {
+    color: var(--accent);
+    text-shadow: 0 0 20px rgba(127, 193, 43, 0.4);
+}
+
+/* ── Layout ──────────────────────────────────────────────── */
+.nw-layout {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    /* Both children start at same Y */
+    gap: 1.5rem;
+    padding: 0 4rem;
+    max-width: 1440px;
+    margin: 0 auto;
+}
+
+/* ── News Card (shared) ──────────────────────────────────── */
+.nw-card {
+    position: relative;
+    border-radius: 24px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: #0a0a0b;
+    transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1),
+        border-color 0.3s ease,
+        box-shadow 0.5s ease;
+}
+
+.nw-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--accent);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 20px rgba(127, 193, 43, 0.1);
+}
+
+.nw-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+    filter: brightness(0.7) contrast(1.1);
+    will-change: transform;
+    /* GPU-promote news card zoom */
+}
+
+.nw-card:hover .nw-card-img {
+    transform: scale(1.06);
+}
+
+/* Featured card: takes up 65% of the layout width */
+.nw-card--featured {
+    flex: 6.5;
+    height: 528px;
+    /* 3 × 160px + 2 × 24px gap = 528px */
+}
+
+/* Side rail: takes up 35% of the layout width, same height */
+.nw-side-rail {
+    flex: 3.5;
+    height: 528px;
+    /* Exactly matches featured card */
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    /* 3 equal divisions of the 528px */
+    gap: 1.5rem;
+}
+
+/* ── Card Overlay ────────────────────────────────────────── */
+.nw-card-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 2.5rem 3rem 2rem 3rem;
+    /* 2rem strict bottom padding */
+    background: linear-gradient(to top,
+            rgba(0, 0, 0, 0.95) 0%,
+            rgba(0, 0, 0, 0.3) 50%,
+            transparent 100%);
+    transition: background 0.4s ease;
+}
+
+.nw-card--small .nw-card-overlay {
+    padding: 1.5rem 1.5rem 2rem 1.5rem;
+    /* Matches the 2rem strict bottom padding of the featured card */
+}
+
+.nw-card-tag {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.8rem;
+}
+
+.nw-card-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.15;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.01em;
+}
+
+.nw-card--small .nw-card-title {
+    font-size: 1.25rem;
+    margin-bottom: 0.3rem;
+}
+
+.nw-card-date {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.5);
+    letter-spacing: 0.02em;
+}
+
+.nw-card--small .nw-card-date {
+    font-size: 0.75rem;
+}
+
+/* ── More Button ─────────────────────────────────────────── */
+.nw-more-container {
+    text-align: center;
+    margin-top: 4rem;
+}
+
+.nw-more-btn {
+    position: relative;
+    overflow: hidden;
+    background: transparent;
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 0.8rem 2.5rem;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    z-index: 1;
+}
+
+.nw-more-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--accent);
+    z-index: -1;
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.nw-more-btn:hover {
+    color: #000;
+    border-color: var(--accent);
+}
+
+.nw-more-btn:hover::before {
+    transform: scaleY(1);
+}
+
+/* ── News Card CTA reveal (matching ev-card-cta) ────────── */
+.nw-card-cta {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}

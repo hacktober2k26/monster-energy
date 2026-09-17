@@ -1,0 +1,38 @@
+/* ─── MONSTER RAIL ────────────────────────────────────────── */
+.monster-rail {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0; right: 0;
+    height: 110px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    background: rgba(255,255,255,0.01);
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.rail-inner {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    animation: rail-scroll 18s linear infinite;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+.rail-inner span {
+    font-size: 3.5rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.03);
+    padding: 0 2rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+}
+
+@keyframes rail-scroll {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+}

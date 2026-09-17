@@ -1,0 +1,10 @@
+/* ─── FLAVOURS SECTION ────────────────────────────────────── */
+.flavours-section {
+    position: relative;
+    z-index: 1;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 99px; }

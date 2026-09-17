@@ -1,0 +1,723 @@
+/* flavours section — LC edition */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    background:
+        radial-gradient(ellipse 80% 50% at 20% 30%, rgba(0, 229, 255, 0.06) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 70% at 80% 70%, rgba(156, 39, 176, 0.07) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 40% at 50% 50%, rgba(127, 193, 43, 0.05) 0%, transparent 55%),
+        radial-gradient(ellipse 90% 90% at 10% 80%, rgba(244, 67, 54, 0.05) 0%, transparent 60%),
+        #030305;
+    animation: lc-drift 18s ease-in-out infinite alternate;
+}
+
+@keyframes lc-drift {
+    0% {
+        filter: hue-rotate(0deg) brightness(1);
+    }
+
+    33% {
+        filter: hue-rotate(40deg) brightness(1.05);
+    }
+
+    66% {
+        filter: hue-rotate(-30deg) brightness(0.97);
+    }
+
+    100% {
+        filter: hue-rotate(20deg) brightness(1.03);
+    }
+}
+
+/* Second layer: moving light sweep */
+body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(135deg,
+            transparent 0%,
+            rgba(255, 255, 255, 0.012) 30%,
+            transparent 50%,
+            rgba(255, 255, 255, 0.008) 70%,
+            transparent 100%);
+    background-size: 300% 300%;
+    animation: lc-sweep 8s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes lc-sweep {
+    0% {
+        background-position: 0% 0%;
+    }
+
+    100% {
+        background-position: 300% 300%;
+    }
+}
+
+/* scrollbar */
+::-webkit-scrollbar { width: 3px; }
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--accent);
+    border-radius: 99px;
+}
+
+/* hero */
+.fl-hero {
+    padding: 5rem 8rem 3rem;
+    text-align: center;
+    position: relative;
+}
+
+/* shimmer bar above title */
+.fl-hero::before {
+    content: '';
+    display: block;
+    width: 120px;
+    height: 2px;
+    margin: 0 auto 2rem;
+    background: linear-gradient(90deg, var(--accent), #fff, var(--accent));
+    background-size: 200%;
+    animation: shimmer-bar 3s linear infinite;
+    border-radius: 2px;
+    box-shadow: 0 0 12px var(--accent);
+    transition: box-shadow 0.5s ease;
+}
+
+@keyframes shimmer-bar {
+    0% {
+        background-position: 0%;
+    }
+
+    100% {
+        background-position: 200%;
+    }
+}
+
+.fl-hero-title {
+    font-weight: 700;
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    letter-spacing: 2px;
+    line-height: 1;
+    color: #fff;
+    text-transform: uppercase;
+    text-shadow: 0 4px 32px rgba(0, 0, 0, 0.6);
+}
+
+.fl-hero-accent {
+    color: var(--accent);
+    /* liquid shimmer on the word */
+    background: linear-gradient(90deg, var(--accent), #fff 50%, var(--accent));
+    background-size: 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer-text 4s linear infinite;
+    transition: background 0.5s ease;
+}
+
+@keyframes shimmer-text {
+    0% {
+        background-position: 0%;
+    }
+
+    100% {
+        background-position: 200%;
+    }
+}
+
+.fl-hero-sub {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    letter-spacing: 7px;
+    color: rgba(255, 255, 255, 0.35);
+    margin-top: 1.2rem;
+    text-transform: uppercase;
+}
+
+/* row wrapper */
+.fl-wrapper { padding: 1rem 0 8rem; }
+
+/* flavour row (2-col grid) */
+.fl-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 5rem;
+    min-height: 92vh;
+    padding: 5rem 7rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.fl-row--reverse {
+    direction: rtl;
+}
+
+.fl-row--reverse>* {
+    direction: ltr;
+}
+
+/* divider line between rows */
+.fl-row+.fl-row::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 5%;
+    right: 5%;
+    height: 1px;
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(255, 255, 255, 0.04) 20%,
+            var(--row-accent, #7fc12b) 50%,
+            rgba(255, 255, 255, 0.04) 80%,
+            transparent);
+    opacity: 0.4;
+}
+
+/* image block + spinning border */
+.fl-img-block {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 3rem 2rem;
+    border-radius: 24px;
+    overflow: hidden;
+}
+
+/* LC conic border frame */
+.fl-img-block::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 24px;
+    padding: 2px;
+    background: conic-gradient(from var(--angle, 0deg),
+            var(--row-accent, #7fc12b) 0deg,
+            rgba(255, 255, 255, 0.7) 60deg,
+            var(--row-accent, #7fc12b) 120deg,
+            rgba(255, 255, 255, 0.1) 180deg,
+            var(--row-accent, #7fc12b) 240deg,
+            rgba(255, 255, 255, 0.6) 300deg,
+            var(--row-accent, #7fc12b) 360deg);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    animation: border-spin 6s linear infinite;
+    pointer-events: none;
+    transition: background 0.6s ease;
+}
+
+@property --angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+}
+
+@keyframes border-spin {
+    to {
+        --angle: 360deg;
+    }
+}
+
+/* inner glow fill */
+.fl-img-block::after {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    border-radius: 22px;
+    background: radial-gradient(circle at 50% 60%,
+            color-mix(in srgb, var(--row-accent, #7fc12b) 10%, transparent) 0%,
+            rgba(3, 3, 5, 0.6) 70%);
+    pointer-events: none;
+    transition: background 0.6s ease;
+    z-index: 0;
+}
+
+/* bg image layer — above glow, below can */
+.fl-img-bg {
+    position: absolute;
+    inset: 4px;
+    border-radius: 20px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 1;
+    opacity: 0.55;
+    transform: scale(1);
+    will-change: transform, opacity;
+    transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+    /* vignette keeps can readable */
+    -webkit-mask-image: radial-gradient(ellipse 85% 85% at 50% 50%,
+            #000 40%, transparent 100%);
+    mask-image: radial-gradient(ellipse 85% 85% at 50% 50%,
+            #000 40%, transparent 100%);
+}
+
+/* zoom bg on hover (clipped by overflow:hidden) */
+.fl-img-block:hover .fl-img-bg {
+    opacity: 0.75;
+    transform: scale(1.06);
+}
+
+
+.fl-can {
+    height: 58vh;
+    max-height: 620px;
+    min-height: 280px;
+    object-fit: contain;
+    position: relative;
+    z-index: 2;
+    opacity: 0;
+    will-change: transform; /* GPU layer — floats via GSAP */
+    filter:
+        drop-shadow(0 0 30px color-mix(in srgb, var(--row-accent, #7fc12b) 50%, transparent)) drop-shadow(0 30px 50px rgba(0, 0, 0, 0.8));
+    transition: filter 0.6s ease;
+}
+
+/* detail card — frosted glass panel */
+.fl-detail-card {
+    padding: 3rem 3.5rem;
+    /* frosted glass */
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 28px;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+}
+
+/* top row: tag + know-more btn */
+.fl-card-top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.6rem;
+}
+
+.fl-know-more-btn {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 0.35rem 0.9rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 99px;
+    color: rgba(255, 255, 255, 0.55);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    position: relative;
+    z-index: 2;
+}
+
+.fl-know-more-btn:hover {
+    background: var(--row-accent, #7fc12b);
+    border-color: var(--row-accent, #7fc12b);
+    color: #000;
+    box-shadow: 0 0 16px var(--row-accent, #7fc12b);
+}
+
+/* know more modal */
+.fl-km-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 7500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+}
+
+.fl-km-backdrop.open {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.fl-km-modal {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 2.5rem;
+    width: min(860px, 92vw);
+    max-height: 90vh;
+    overflow-y: auto;
+    background: rgba(10, 10, 12, 0.97);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 3px solid var(--fl-km-accent, #7fc12b);
+    border-radius: 28px;
+    padding: 3rem 3rem 3rem 2.5rem;
+    position: relative;
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8), 0 0 60px rgba(0, 0, 0, 0.5);
+    transform: scale(0.94) translateY(24px);
+    transition: transform 0.45s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.fl-km-backdrop.open .fl-km-modal {
+    transform: scale(1) translateY(0);
+}
+
+.fl-km-close {
+    position: absolute;
+    top: 1.2rem;
+    right: 1.2rem;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    transition: all 0.2s ease;
+    z-index: 2;
+}
+
+.fl-km-close:hover {
+    background: var(--fl-km-accent, #7fc12b);
+    color: #000;
+    border-color: var(--fl-km-accent, #7fc12b);
+}
+
+/* modal image col */
+.fl-km-img-col {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.fl-km-glow {
+    position: absolute;
+    inset: -20px;
+    border-radius: 50%;
+    filter: blur(40px);
+    opacity: 0.4;
+    pointer-events: none;
+    animation: km-pulse 3s ease-in-out infinite alternate;
+}
+
+@keyframes km-pulse {
+    from {
+        opacity: 0.3;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 0.55;
+        transform: scale(1.1);
+    }
+}
+
+.fl-km-can {
+    height: 280px;
+    object-fit: contain;
+    position: relative;
+    z-index: 1;
+    filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.6));
+    animation: km-float 4s ease-in-out infinite alternate;
+}
+
+@keyframes km-float {
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(-12px);
+    }
+}
+
+/* modal info body */
+.fl-km-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    padding-top: 0.5rem;
+}
+
+.fl-km-tag {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--fl-km-accent, #7fc12b);
+}
+
+.fl-km-title {
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.1;
+}
+
+.fl-km-divider {
+    width: 50px;
+    height: 3px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--fl-km-accent, #7fc12b), #fff, var(--fl-km-accent, #7fc12b));
+    background-size: 200%;
+    animation: shimmer-bar 3s linear infinite;
+    box-shadow: 0 0 10px var(--fl-km-accent, #7fc12b);
+}
+
+.fl-km-desc {
+    font-size: 0.88rem;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.55);
+    max-width: 480px;
+}
+
+/* taste/sugar chips */
+.fl-km-chips {
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+    margin-top: 0.4rem;
+}
+
+.fl-km-chip {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    padding: 0.55rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.chip-label {
+    font-size: 0.62rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.chip-val {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--fl-km-accent, #7fc12b);
+}
+
+/* ingredients block */
+.fl-km-ingredients-block {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    padding: 1rem 1.2rem;
+    margin-top: 0.4rem;
+}
+
+.fl-km-ing-label {
+    display: block;
+    font-size: 0.62rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.3);
+    margin-bottom: 0.5rem;
+}
+
+.fl-km-ing-text {
+    font-size: 0.78rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+
+/* holo sweep inside card */
+.fl-detail-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 28px;
+    background: linear-gradient(125deg,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.03) 30%,
+            rgba(255, 255, 255, 0) 50%,
+            rgba(255, 255, 255, 0.025) 70%,
+            rgba(255, 255, 255, 0) 100%);
+    background-size: 300% 300%;
+    animation: holo-sweep 7s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes holo-sweep {
+    0% {
+        background-position: 0% 0%;
+    }
+
+    100% {
+        background-position: 300% 300%;
+    }
+}
+
+/* corner glow blob */
+.fl-detail-card::after {
+    content: '';
+    position: absolute;
+    top: -30%;
+    right: -20%;
+    width: 70%;
+    height: 70%;
+    background: radial-gradient(circle,
+            color-mix(in srgb, var(--row-accent, #7fc12b) 15%, transparent) 0%,
+            transparent 70%);
+    pointer-events: none;
+    border-radius: 50%;
+    transition: background 0.7s ease;
+    animation: blob-pulse 5s ease-in-out infinite alternate;
+}
+
+@keyframes blob-pulse {
+    from {
+        opacity: 0.7;
+        transform: scale(1);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1.15);
+    }
+}
+
+/* card text */
+.fl-tag {
+    font-weight: 600;
+    font-size: 0.75rem;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--row-accent, #7fc12b);
+    transition: color 0.5s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.fl-name {
+    font-weight: 700;
+    font-size: clamp(2rem, 3.5vw, 3.4rem);
+    letter-spacing: 1px;
+    color: #fff;
+    margin-top: 0.5rem;
+    line-height: 1;
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.9);
+    position: relative;
+    z-index: 1;
+}
+
+.fl-divider {
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--row-accent, #7fc12b), #fff, var(--row-accent, #7fc12b));
+    background-size: 200%;
+    animation: shimmer-bar 3s linear infinite;
+    margin: 1.4rem 0;
+    border-radius: 2px;
+    box-shadow: 0 0 12px var(--row-accent, #7fc12b);
+    transition: box-shadow 0.5s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.fl-desc {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.93rem;
+    line-height: 1.85;
+    color: rgba(255, 255, 255, 0.58);
+    max-width: 400px;
+    position: relative;
+    z-index: 1;
+}
+
+/* stats row */
+.fl-stats {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+    margin: 2rem 0;
+    padding: 1.5rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    position: relative;
+    z-index: 1;
+}
+
+.fl-stats li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.stat-val {
+    font-weight: 700;
+    font-size: 2rem;
+    color: var(--row-accent, #7fc12b);
+    letter-spacing: 1px;
+    line-height: 1;
+    text-shadow: 0 0 12px var(--row-accent, #7fc12b);
+    transition: color 0.5s ease, text-shadow 0.5s ease;
+}
+
+.stat-val small {
+    font-size: 0.85rem;
+    opacity: 0.65;
+}
+
+.stat-lbl {
+    font-weight: 600;
+    font-size: 0.7rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.35);
+}
+
+/* add-to-cart button w/ LC shimmer border */
+.fl-btn {
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 0.75rem 2.4rem;
+    background: transparent;
+    /* LC shimmer border using outline technique */
+    border: 1px solid transparent;
+    border-radius: 6px;
+    background-image:
+        linear-gradient(rgba(3, 3, 5, 0.8), rgba(3, 3, 5, 0.8)),
+        linear-gradient(90deg, var(--row-accent, #7fc12b), #fff, var(--row-accent, #7fc12b));
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    background-size: auto, 200% auto;
+    color: var(--row-accent, #7fc12b);
+    cursor: pointer;
+    transition: color 0.3s, box-shadow 0.3s;
+    animation: shimmer-bar 4s linear infinite;
+    position: relative;
+    z-index: 1;
+}
+
+.fl-btn:hover {
+    color: #000;
+    background-image:
+        linear-gradient(var(--row-accent, #7fc12b), var(--row-accent, #7fc12b)),
+        linear-gradient(90deg, var(--row-accent, #7fc12b), #fff, var(--row-accent, #7fc12b));
+    box-shadow: 0 0 25px var(--row-accent, #7fc12b), 0 0 60px color-mix(in srgb, var(--row-accent, #7fc12b) 30%, transparent);
+}

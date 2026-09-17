@@ -1,0 +1,14 @@
+/* ─── FLAVOUR NAME ────────────────────────────────────────── */
+.flavour-name {
+    position: absolute;
+    bottom: 9rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    z-index: 110;
+    white-space: nowrap;
+}
