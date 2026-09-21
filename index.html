@@ -7,11 +7,13 @@
     <meta name="theme-color" content="#080808">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="description" content="Monster Energy — Unleash the Beast. Play arcade games, explore flavours, and discover events.">
+    <meta name="description"
+        content="Monster Energy — Unleash the Beast. Play arcade games, explore flavours, and discover events.">
     <title>Monster Energy</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="css/main.css">
     <link rel="icon" type="image/png" href="assets/images/logo.png">
     <!-- PWA -->
@@ -68,13 +70,20 @@
                 <button class="currency-btn" id="currency-btn" aria-haspopup="listbox" aria-expanded="false"
                     aria-label="Select currency">
                     <span class="currency-symbol" id="currency-symbol">₹</span>
-                    <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <svg width="10" height="6" viewBox="0 0 10 6" fill="none">
+                        <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
                 </button>
                 <ul class="currency-dropdown" id="currency-dropdown" role="listbox" aria-label="Currency">
-                    <li class="currency-option active" data-code="INR" data-symbol="₹" data-rate="1" role="option">₹ INR</li>
-                    <li class="currency-option" data-code="USD" data-symbol="$" data-rate="0.012" role="option">$ USD</li>
-                    <li class="currency-option" data-code="EUR" data-symbol="€" data-rate="0.011" role="option">€ EUR</li>
-                    <li class="currency-option" data-code="GBP" data-symbol="£" data-rate="0.0095" role="option">£ GBP</li>
+                    <li class="currency-option active" data-code="INR" data-symbol="₹" data-rate="1" role="option">₹ INR
+                    </li>
+                    <li class="currency-option" data-code="USD" data-symbol="$" data-rate="0.012" role="option">$ USD
+                    </li>
+                    <li class="currency-option" data-code="EUR" data-symbol="€" data-rate="0.011" role="option">€ EUR
+                    </li>
+                    <li class="currency-option" data-code="GBP" data-symbol="£" data-rate="0.0095" role="option">£ GBP
+                    </li>
                 </ul>
             </div>
         </div>
@@ -667,11 +676,14 @@
 
             <!-- Step indicator -->
             <div class="pg-steps">
-                <div class="pg-step active" id="pgstep-1"><span class="pg-step-num">1</span><span class="pg-step-label">Order</span></div>
+                <div class="pg-step active" id="pgstep-1"><span class="pg-step-num">1</span><span
+                        class="pg-step-label">Order</span></div>
                 <div class="pg-step-line"></div>
-                <div class="pg-step" id="pgstep-2"><span class="pg-step-num">2</span><span class="pg-step-label">Shipping</span></div>
+                <div class="pg-step" id="pgstep-2"><span class="pg-step-num">2</span><span
+                        class="pg-step-label">Shipping</span></div>
                 <div class="pg-step-line"></div>
-                <div class="pg-step" id="pgstep-3"><span class="pg-step-num">3</span><span class="pg-step-label">Payment</span></div>
+                <div class="pg-step" id="pgstep-3"><span class="pg-step-num">3</span><span
+                        class="pg-step-label">Payment</span></div>
             </div>
 
             <!-- ── Step 1: Order Summary ── -->
@@ -681,7 +693,8 @@
                 <div class="pg-order-totals">
                     <div class="pg-total-row"><span>Subtotal</span><span id="pg-sub">₹0.00</span></div>
                     <div class="pg-total-row"><span>Delivery</span><span class="pg-free">FREE</span></div>
-                    <div class="pg-total-row pg-total-row--grand"><span>Total</span><span id="pg-total">₹0.00</span></div>
+                    <div class="pg-total-row pg-total-row--grand"><span>Total</span><span id="pg-total">₹0.00</span>
+                    </div>
                 </div>
                 <button class="pg-btn" id="pg-next-1">CONTINUE TO SHIPPING →</button>
             </div>
@@ -693,33 +706,40 @@
                     <div class="pg-field-row">
                         <div class="pg-field">
                             <label class="pg-label" for="pg-fname">First Name</label>
-                            <input class="pg-input" id="pg-fname" type="text" placeholder="Beast" autocomplete="given-name">
+                            <input class="pg-input" id="pg-fname" type="text" placeholder="Beast"
+                                autocomplete="given-name">
                         </div>
                         <div class="pg-field">
                             <label class="pg-label" for="pg-lname">Last Name</label>
-                            <input class="pg-input" id="pg-lname" type="text" placeholder="Mode" autocomplete="family-name">
+                            <input class="pg-input" id="pg-lname" type="text" placeholder="Mode"
+                                autocomplete="family-name">
                         </div>
                     </div>
                     <div class="pg-field">
                         <label class="pg-label" for="pg-email">Email</label>
-                        <input class="pg-input" id="pg-email" type="email" placeholder="you@example.com" autocomplete="email">
+                        <input class="pg-input" id="pg-email" type="email" placeholder="you@example.com"
+                            autocomplete="email">
                     </div>
                     <div class="pg-field">
                         <label class="pg-label" for="pg-phone">Phone</label>
-                        <input class="pg-input" id="pg-phone" type="tel" placeholder="+91 98765 43210" autocomplete="tel">
+                        <input class="pg-input" id="pg-phone" type="tel" placeholder="+91 98765 43210"
+                            autocomplete="tel">
                     </div>
                     <div class="pg-field">
                         <label class="pg-label" for="pg-address">Address</label>
-                        <input class="pg-input" id="pg-address" type="text" placeholder="Street / Building" autocomplete="street-address">
+                        <input class="pg-input" id="pg-address" type="text" placeholder="Street / Building"
+                            autocomplete="street-address">
                     </div>
                     <div class="pg-field-row">
                         <div class="pg-field">
                             <label class="pg-label" for="pg-city">City</label>
-                            <input class="pg-input" id="pg-city" type="text" placeholder="Mumbai" autocomplete="address-level2">
+                            <input class="pg-input" id="pg-city" type="text" placeholder="Mumbai"
+                                autocomplete="address-level2">
                         </div>
                         <div class="pg-field">
                             <label class="pg-label" for="pg-pin">PIN Code</label>
-                            <input class="pg-input" id="pg-pin" type="text" placeholder="400001" maxlength="6" autocomplete="postal-code">
+                            <input class="pg-input" id="pg-pin" type="text" placeholder="400001" maxlength="6"
+                                autocomplete="postal-code">
                         </div>
                     </div>
                 </div>
@@ -744,26 +764,33 @@
                 <div class="pg-form">
                     <div class="pg-field">
                         <label class="pg-label" for="pg-cardname">Name on Card</label>
-                        <input class="pg-input" id="pg-cardname" type="text" placeholder="Beast Mode" autocomplete="cc-name">
+                        <input class="pg-input" id="pg-cardname" type="text" placeholder="Beast Mode"
+                            autocomplete="cc-name">
                     </div>
                     <div class="pg-field">
                         <label class="pg-label" for="pg-cardnum">Card Number</label>
-                        <input class="pg-input pg-input--mono" id="pg-cardnum" type="text" placeholder="1234 5678 9012 3456" maxlength="19" autocomplete="cc-number">
+                        <input class="pg-input pg-input--mono" id="pg-cardnum" type="text"
+                            placeholder="1234 5678 9012 3456" maxlength="19" autocomplete="cc-number">
                     </div>
                     <div class="pg-field-row">
                         <div class="pg-field">
                             <label class="pg-label" for="pg-expiry">Expiry</label>
-                            <input class="pg-input pg-input--mono" id="pg-expiry" type="text" placeholder="MM/YY" maxlength="5" autocomplete="cc-exp">
+                            <input class="pg-input pg-input--mono" id="pg-expiry" type="text" placeholder="MM/YY"
+                                maxlength="5" autocomplete="cc-exp">
                         </div>
                         <div class="pg-field">
                             <label class="pg-label" for="pg-cvv">CVV</label>
-                            <input class="pg-input pg-input--mono" id="pg-cvv" type="text" placeholder="•••" maxlength="4" autocomplete="cc-csc">
+                            <input class="pg-input pg-input--mono" id="pg-cvv" type="text" placeholder="•••"
+                                maxlength="4" autocomplete="cc-csc">
                         </div>
                     </div>
                 </div>
                 <!-- Safe-to-share disclaimer -->
                 <p class="pg-secure-note">
-                    <svg width="13" height="14" viewBox="0 0 13 14"><path fill="currentColor" d="M6.5 0a3.5 3.5 0 0 0-3.5 3.5V5H1.5A1.5 1.5 0 0 0 0 6.5v6A1.5 1.5 0 0 0 1.5 14h10A1.5 1.5 0 0 0 13 12.5v-6A1.5 1.5 0 0 0 11.5 5H10V3.5A3.5 3.5 0 0 0 6.5 0zm2 5h-4V3.5a2 2 0 0 1 4 0V5z"/></svg>
+                    <svg width="13" height="14" viewBox="0 0 13 14">
+                        <path fill="currentColor"
+                            d="M6.5 0a3.5 3.5 0 0 0-3.5 3.5V5H1.5A1.5 1.5 0 0 0 0 6.5v6A1.5 1.5 0 0 0 1.5 14h10A1.5 1.5 0 0 0 13 12.5v-6A1.5 1.5 0 0 0 11.5 5H10V3.5A3.5 3.5 0 0 0 6.5 0zm2 5h-4V3.5a2 2 0 0 1 4 0V5z" />
+                    </svg>
                     This is a demo checkout — no real payment is processed.
                 </p>
                 <div class="pg-btns-row">
@@ -781,7 +808,8 @@
                 <div class="pg-success" id="pg-success" style="display:none">
                     <div class="pg-success-icon">✓</div>
                     <h3 class="pg-success-title">Payment Successful!</h3>
-                    <p class="pg-success-sub">Your order is confirmed. Prepare to<br><strong>Unleash the Beast 🔥</strong></p>
+                    <p class="pg-success-sub">Your order is confirmed. Prepare to<br><strong>Unleash the Beast
+                            🔥</strong></p>
                     <div class="pg-order-id">Order ID: <span id="pg-order-id"></span></div>
                     <button class="pg-btn" id="pg-done">DONE</button>
                 </div>
@@ -846,7 +874,9 @@
                             <span class="hud-value" id="snake-score">0</span>
                         </div>
                         <div class="hud-center">
-                            <span class="hud-label" style="letter-spacing:2px;font-size:0.6rem;color:rgba(255,255,255,0.35)">SNAKE FRENZY</span>
+                            <span class="hud-label"
+                                style="letter-spacing:2px;font-size:0.6rem;color:rgba(255,255,255,0.35)">SNAKE
+                                FRENZY</span>
                         </div>
                         <div class="hud-right">
                             <span class="hud-label">BEST</span>
@@ -951,7 +981,8 @@
                 </p>
                 <!-- Social icons -->
                 <div class="footer-socials">
-                    <a href="#" class="footer-social-btn" aria-label="Instagram">
+                    <a href="https://www.instagram.com/monsterenergy/" class="footer-social-btn" aria-label="Instagram"
+                        target="_blank" rel="noopener noreferrer">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
                             stroke-linecap="round" stroke-linejoin="round">
                             <rect x="2" y="2" width="20" height="20" rx="5" />
@@ -959,19 +990,22 @@
                             <circle cx="17.5" cy="6.5" r="0.7" fill="currentColor" stroke="none" />
                         </svg>
                     </a>
-                    <a href="#" class="footer-social-btn" aria-label="X / Twitter">
+                    <a href="https://x.com/MonsterEnergy" class="footer-social-btn" aria-label="X / Twitter"
+                        target="_blank" rel="noopener noreferrer">
                         <svg viewBox="0 0 24 24" fill="currentColor">
                             <path
                                 d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                         </svg>
                     </a>
-                    <a href="#" class="footer-social-btn" aria-label="YouTube">
+                    <a href="https://www.youtube.com/@MonsterEnergy" class="footer-social-btn" aria-label="YouTube"
+                        target="_blank" rel="noopener noreferrer">
                         <svg viewBox="0 0 24 24" fill="currentColor">
                             <path
                                 d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1C4.5 20.5 12 20.5 12 20.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.75 15.5v-7l6.5 3.5-6.5 3.5z" />
                         </svg>
                     </a>
-                    <a href="#" class="footer-social-btn" aria-label="TikTok">
+                    <a href="https://www.tiktok.com/@monsterenergy" class="footer-social-btn" aria-label="TikTok"
+                        target="_blank" rel="noopener noreferrer">
                         <svg viewBox="0 0 24 24" fill="currentColor">
                             <path
                                 d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.17 8.17 0 004.77 1.52V6.75a4.85 4.85 0 01-1-.06z" />
@@ -996,13 +1030,15 @@
             <div class="footer-col">
                 <h4 class="footer-col-heading">Sports</h4>
                 <ul class="footer-links">
-                    <li><a href="#">Formula 1</a></li>
-                    <li><a href="#">MotoGP</a></li>
-                    <li><a href="#">Basketball</a></li>
-                    <li><a href="#">Football</a></li>
-                    <li><a href="#">MMA / UFC</a></li>
-                    <li><a href="#">Rally Raid</a></li>
-                    <li><a href="#">Esports</a></li>
+                    <li><a href="https://www.formula1.com/" target="_blank" rel="noopener noreferrer">Formula 1</a></li>
+                    <li><a href="https://www.motogp.com/" target="_blank" rel="noopener noreferrer">MotoGP</a></li>
+                    <li><a href="https://www.nba.com/" target="_blank" rel="noopener noreferrer">Basketball</a></li>
+                    <li><a href="https://www.fifa.com/" target="_blank" rel="noopener noreferrer">Football</a></li>
+                    <li><a href="https://www.ufc.com/" target="_blank" rel="noopener noreferrer">MMA / UFC</a></li>
+                    <li><a href="https://www.worldrallyraidchampionship.com/" target="_blank"
+                            rel="noopener noreferrer">Rally Raid</a></li>
+                    <li><a href="https://www.monsterenergy.com/gaming" target="_blank"
+                            rel="noopener noreferrer">Esports</a></li>
                 </ul>
             </div>
 
@@ -1097,7 +1133,9 @@
             <button class="quiz-close" id="quiz-close" aria-label="Close quiz">✕</button>
 
             <!-- Progress bar -->
-            <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="quiz-progress-fill"></div></div>
+            <div class="quiz-progress-bar">
+                <div class="quiz-progress-fill" id="quiz-progress-fill"></div>
+            </div>
 
             <!-- Step counter -->
             <div class="quiz-step-label" id="quiz-step-label">QUESTION 1 OF 5</div>
@@ -1199,7 +1237,7 @@
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js').catch(() => {});
+                navigator.serviceWorker.register('/sw.js').catch(() => { });
             });
         }
     </script>

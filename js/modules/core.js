@@ -541,3 +541,18 @@ if (newsletterForm && newsletterInput) {
         newsletterInput.value = '';
     });
 }
+
+// -- sports tab links: preventDefault only if link cannot navigate to a relevant page --
+document.querySelectorAll('.footer-col').forEach(col => {
+    const heading = col.querySelector('.footer-col-heading');
+    if (heading && heading.textContent.trim().toLowerCase() === 'sports') {
+        col.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                const href = (link.getAttribute('href') || '').trim();
+                if (!href || href === '#' || href.startsWith('javascript:')) {
+                    e.preventDefault();
+                }
+            });
+        });
+    }
+});
