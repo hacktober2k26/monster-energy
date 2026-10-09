@@ -2,20 +2,20 @@
 gsap.registerPlugin(ScrollTrigger);
 
 // -- DOM refs --
-const can       = document.getElementById('monster-can');
-const shadow    = document.querySelector('.can-shadow');
-const bgGlow    = document.getElementById('bgGlow');
-const navBrand  = document.getElementById('nav-brand');
-const navIcon   = document.querySelector('.nav-icon');
-const navCta    = document.querySelector('.nav-cta');
+const can = document.getElementById('monster-can');
+const shadow = document.querySelector('.can-shadow');
+const bgGlow = document.getElementById('bgGlow');
+const navBrand = document.getElementById('nav-brand');
+const navIcon = document.querySelector('.nav-icon');
+const navCta = document.querySelector('.nav-cta');
 const flavourLbl = document.getElementById('flavour-name');
-const btns      = document.querySelectorAll('.color-btn');
-const root      = document.documentElement;
-const navbar    = document.getElementById('navbar');
+const btns = document.querySelectorAll('.color-btn');
+const root = document.documentElement;
+const navbar = document.getElementById('navbar');
 const scrollHint = document.getElementById('scroll-hint');
 
 // -- cursor --
-const cursorDot  = document.getElementById('cursor-dot');
+const cursorDot = document.getElementById('cursor-dot');
 const cursorRing = document.getElementById('cursor-ring');
 
 let mouseX = window.innerWidth / 2;
@@ -50,19 +50,19 @@ bindCursorHovers();
 
 // -- nav scroll-spy --
 const navLinks = {
-    home:     document.getElementById('nav-home'),
+    home: document.getElementById('nav-home'),
     flavours: document.getElementById('nav-flavours'),
-    events:   document.getElementById('nav-events'),
-    news:     document.getElementById('nav-news'),
-    game:     document.getElementById('nav-game'),
+    events: document.getElementById('nav-events'),
+    news: document.getElementById('nav-news'),
+    game: document.getElementById('nav-game'),
 };
 
 const sections = {
-    home:     document.getElementById('home'),
+    home: document.getElementById('home'),
     flavours: document.getElementById('flavours'),
-    events:   document.getElementById('events'),
-    news:     document.getElementById('news'),
-    game:     document.getElementById('game'),
+    events: document.getElementById('events'),
+    news: document.getElementById('news'),
+    game: document.getElementById('game'),
 };
 
 function setActiveNav(id) {
@@ -80,9 +80,9 @@ const sectionObserver = new IntersectionObserver((entries) => {
 Object.values(sections).forEach(sec => sec && sectionObserver.observe(sec));
 
 // -- loader --
-const loader       = document.getElementById('loader');
-const loaderBar    = document.getElementById('loader-bar');
-const loaderLogo   = document.getElementById('loader-logo');
+const loader = document.getElementById('loader');
+const loaderBar = document.getElementById('loader-bar');
+const loaderLogo = document.getElementById('loader-logo');
 const loaderLetters = document.querySelectorAll('#loader-tagline span:not(.loader-space)');
 
 document.body.style.overflow = 'hidden'; // lock scroll during load
@@ -132,12 +132,25 @@ function startFloat() {
 }
 gsap.to(shadow, { scaleX: 0.75, opacity: 0.25, duration: 2.2, repeat: -1, yoyo: true, ease: 'sine.inOut' });
 
+// -- restore saved flavour --
+const savedFlavour = localStorage.getItem('selectedFlavour');
+const savedButton = document.querySelector(`.color-btn[data-color="${savedFlavour}"]`);
+
+if (savedButton) {
+    setAccent(savedButton.dataset.hex, false);
+    flavourLbl.textContent = savedButton.dataset.name;
+    can.src = `assets/images/${savedButton.dataset.color}.png`;
+    btns.forEach(b => b.classList.remove('active'));
+    savedButton.classList.add('active');
+}
+
 // -- color button clicks --
 btns.forEach(btn => {
     btn.addEventListener('click', () => {
         if (btn.classList.contains('active')) return;
         btns.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
+        localStorage.setItem('selectedFlavour', btn.dataset.color);
         switchFlavour(btn.dataset.color, btn.dataset.hex, btn.dataset.name);
     });
 });
@@ -175,12 +188,12 @@ function setAccent(hex, animate = true) {
 const heroAccent = document.getElementById('fl-title-accent');
 
 gsap.from('.fl-hero-title', { opacity: 0, y: 50, duration: 1, ease: 'expo.out', scrollTrigger: { trigger: '.fl-hero', start: 'top 80%' } });
-gsap.from('.fl-hero-sub',   { opacity: 0, y: 30, duration: 0.8, delay: 0.2, ease: 'expo.out', scrollTrigger: { trigger: '.fl-hero', start: 'top 80%' } });
+gsap.from('.fl-hero-sub', { opacity: 0, y: 30, duration: 0.8, delay: 0.2, ease: 'expo.out', scrollTrigger: { trigger: '.fl-hero', start: 'top 80%' } });
 
-document.querySelectorAll('.fl-row').forEach((row) => {
+document.querySelectorAll('.fl-row').forEach((row, index) => {
     const hex = row.dataset.accent;
     const flCan = row.querySelector('.fl-can');
-    const card  = row.querySelector('.fl-detail-card');
+    const card = row.querySelector('.fl-detail-card');
     const isReverse = row.classList.contains('fl-row--reverse');
 
     row.style.setProperty('--row-accent', hex);
@@ -204,6 +217,11 @@ document.querySelectorAll('.fl-row').forEach((row) => {
         trigger: row, start: 'top 50%', end: 'bottom 50%',
         onEnter: () => applyFlAccent(hex),
         onEnterBack: () => applyFlAccent(hex),
+        onLeaveBack: () => {
+            if (index !== 0) return;
+            const activeButton = document.querySelector('.color-btn.active');
+            if (activeButton) setAccent(activeButton.dataset.hex);
+        },
     });
 });
 
@@ -219,7 +237,7 @@ function applyFlAccent(hex) {
 // -- smooth anchor scroll + instant active nav update --
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
-        const href   = this.getAttribute('href');
+        const href = this.getAttribute('href');
         const target = document.querySelector(href);
         if (target) {
             e.preventDefault();
@@ -253,41 +271,41 @@ gsap.from('.ev-card--small', {
 
 // -- event modal refs --
 const modalBackdrop = document.getElementById('ev-modal-backdrop');
-const modalImg      = document.getElementById('ev-modal-img');
-const modalGlow     = document.getElementById('ev-modal-img-glow');
-const modalTag      = document.getElementById('ev-modal-tag');
-const modalTitle    = document.getElementById('ev-modal-title');
-const modalDate     = document.getElementById('ev-modal-date');
-const modalDesc     = document.getElementById('ev-modal-desc');
-const modalClose    = document.getElementById('ev-modal-close');
+const modalImg = document.getElementById('ev-modal-img');
+const modalGlow = document.getElementById('ev-modal-img-glow');
+const modalTag = document.getElementById('ev-modal-tag');
+const modalTitle = document.getElementById('ev-modal-title');
+const modalDate = document.getElementById('ev-modal-date');
+const modalDesc = document.getElementById('ev-modal-desc');
+const modalClose = document.getElementById('ev-modal-close');
 
 const eventImgMap = {
-    f1:         'assets/images/Event_F1.jpg',
-    motogp:     'assets/images/Event_MotoGP.jpg',
+    f1: 'assets/images/Event_F1.jpg',
+    motogp: 'assets/images/Event_MotoGP.jpg',
     basketball: 'assets/images/Event_basketball.jpg',
-    football:   'assets/images/Event_football.jpg',
+    football: 'assets/images/Event_football.jpg',
 };
 
 const eventGlowMap = {
-    f1:         'rgba(220,30,30,0.25)',
-    motogp:     'rgba(0,180,255,0.2)',
+    f1: 'rgba(220,30,30,0.25)',
+    motogp: 'rgba(0,180,255,0.2)',
     basketball: 'rgba(255,140,0,0.2)',
-    football:   'rgba(50,200,80,0.2)',
+    football: 'rgba(50,200,80,0.2)',
 };
 
 function openModal(card) {
-    const key   = card.dataset.event;
+    const key = card.dataset.event;
     const title = card.dataset.title;
-    const date  = card.dataset.date;
-    const desc  = card.dataset.desc;
-    const tag   = card.querySelector('.ev-card-tag').textContent;
+    const date = card.dataset.date;
+    const desc = card.dataset.desc;
+    const tag = card.querySelector('.ev-card-tag').textContent;
 
-    modalImg.src   = eventImgMap[key] || '';
-    modalImg.alt   = title;
-    modalTag.textContent   = tag;
+    modalImg.src = eventImgMap[key] || '';
+    modalImg.alt = title;
+    modalTag.textContent = tag;
     modalTitle.textContent = title;
-    modalDate.textContent  = date;
-    modalDesc.textContent  = desc;
+    modalDate.textContent = date;
+    modalDesc.textContent = desc;
     modalGlow.style.background = `linear-gradient(135deg, ${eventGlowMap[key] || 'rgba(127,193,43,0.2)'} 0%, transparent 60%)`;
 
     modalBackdrop.classList.add('open');
@@ -321,12 +339,12 @@ if (evSection) sectionObserver.observe(evSection);
 
 // -- carousel arrows --
 const evLayout = document.getElementById('ev-layout');
-const evPrev   = document.getElementById('ev-prev');
-const evNext   = document.getElementById('ev-next');
+const evPrev = document.getElementById('ev-prev');
+const evNext = document.getElementById('ev-next');
 
 if (evLayout && evPrev && evNext) {
     evPrev.addEventListener('click', () => evLayout.scrollBy({ left: -580, behavior: 'smooth' }));
-    evNext.addEventListener('click', () => evLayout.scrollBy({ left:  580, behavior: 'smooth' }));
+    evNext.addEventListener('click', () => evLayout.scrollBy({ left: 580, behavior: 'smooth' }));
 }
 
 // -- news section --
@@ -354,34 +372,34 @@ gsap.from('.nw-more-btn', {
 
 // -- news modal refs --
 const nwModalBackdrop = document.getElementById('nw-modal-backdrop');
-const nwModalImg      = document.getElementById('nw-modal-img');
-const nwModalGlow     = document.getElementById('nw-modal-img-glow');
-const nwModalTag      = document.getElementById('nw-modal-tag');
-const nwModalTitle    = document.getElementById('nw-modal-title');
-const nwModalDate     = document.getElementById('nw-modal-date');
-const nwModalDesc     = document.getElementById('nw-modal-desc');
-const nwModalClose    = document.getElementById('nw-modal-close');
+const nwModalImg = document.getElementById('nw-modal-img');
+const nwModalGlow = document.getElementById('nw-modal-img-glow');
+const nwModalTag = document.getElementById('nw-modal-tag');
+const nwModalTitle = document.getElementById('nw-modal-title');
+const nwModalDate = document.getElementById('nw-modal-date');
+const nwModalDesc = document.getElementById('nw-modal-desc');
+const nwModalClose = document.getElementById('nw-modal-close');
 
 const newsGlowMap = {
     'FORMULA 1': 'rgba(220,30,30,0.25)',
-    'RALLY':     'rgba(255,160,0,0.2)',
-    'GAMING':    'rgba(0,200,255,0.2)',
-    'FIGHT':     'rgba(255,80,0,0.22)',
+    'RALLY': 'rgba(255,160,0,0.2)',
+    'GAMING': 'rgba(0,200,255,0.2)',
+    'FIGHT': 'rgba(255,80,0,0.22)',
 };
 
 function openNewsModal(card) {
-    const tag    = card.dataset.tag   || card.querySelector('.nw-card-tag').textContent;
-    const title  = card.dataset.title || card.querySelector('.nw-card-title').textContent;
-    const date   = card.dataset.date  || card.querySelector('.nw-card-date').textContent;
-    const desc   = card.dataset.desc  || '';
+    const tag = card.dataset.tag || card.querySelector('.nw-card-tag').textContent;
+    const title = card.dataset.title || card.querySelector('.nw-card-title').textContent;
+    const date = card.dataset.date || card.querySelector('.nw-card-date').textContent;
+    const desc = card.dataset.desc || '';
     const imgSrc = card.querySelector('.nw-card-img').src;
 
-    nwModalImg.src             = imgSrc;
-    nwModalImg.alt             = title;
-    nwModalTag.textContent     = tag;
-    nwModalTitle.textContent   = title;
-    nwModalDate.textContent    = date;
-    nwModalDesc.textContent    = desc;
+    nwModalImg.src = imgSrc;
+    nwModalImg.alt = title;
+    nwModalTag.textContent = tag;
+    nwModalTitle.textContent = title;
+    nwModalDate.textContent = date;
+    nwModalDesc.textContent = desc;
     nwModalGlow.style.background = `linear-gradient(135deg, ${newsGlowMap[tag] || 'rgba(127,193,43,0.2)'} 0%, transparent 60%)`;
 
     nwModalBackdrop.classList.add('open');
@@ -408,14 +426,14 @@ nwModalBackdrop.addEventListener('click', (e) => { if (e.target === nwModalBackd
 
 // -- more news panel --
 const nwPanelBackdrop = document.getElementById('nw-panel-backdrop');
-const nwPanelClose    = document.getElementById('nw-panel-close');
-const nwMoreBtn       = document.querySelector('.nw-more-btn');
+const nwPanelClose = document.getElementById('nw-panel-close');
+const nwMoreBtn = document.querySelector('.nw-more-btn');
 
-function openNewsPanel()  { nwPanelBackdrop.classList.add('open'); document.body.style.overflow = 'hidden'; bindCursorHovers(); }
+function openNewsPanel() { nwPanelBackdrop.classList.add('open'); document.body.style.overflow = 'hidden'; bindCursorHovers(); }
 function closeNewsPanel() { nwPanelBackdrop.classList.remove('open'); document.body.style.overflow = ''; }
 
-if (nwMoreBtn)       nwMoreBtn.addEventListener('click', openNewsPanel);
-if (nwPanelClose)    nwPanelClose.addEventListener('click', closeNewsPanel);
+if (nwMoreBtn) nwMoreBtn.addEventListener('click', openNewsPanel);
+if (nwPanelClose) nwPanelClose.addEventListener('click', closeNewsPanel);
 if (nwPanelBackdrop) {
     nwPanelBackdrop.addEventListener('click', (e) => {
         // close only if clicking the dark backdrop, not the panel itself
@@ -426,10 +444,10 @@ if (nwPanelBackdrop) {
 // -- shared escape key handler (covers all modals + panel + cart) --
 window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
-        if (nwModalBackdrop.classList.contains('open'))   closeNewsModal();
-        if (nwPanelBackdrop.classList.contains('open'))   closeNewsPanel();
+        if (nwModalBackdrop.classList.contains('open')) closeNewsModal();
+        if (nwPanelBackdrop.classList.contains('open')) closeNewsPanel();
         if (cartDrawerBackdrop && cartDrawerBackdrop.classList.contains('open')) closeCart();
-        if (confirmBackdrop    && confirmBackdrop.classList.contains('open'))    closeConfirm();
+        if (confirmBackdrop && confirmBackdrop.classList.contains('open')) closeConfirm();
         // flKmBackdrop / closeFlavourModal are exposed from flavours-modal.js via window
         if (window.flKmBackdrop && window.flKmBackdrop.classList.contains('open')) {
             if (typeof window.closeFlavourModal === 'function') window.closeFlavourModal();
@@ -453,16 +471,16 @@ function showToast(msg) {
 }
 
 // -- confirm modal --
-const confirmBackdrop  = document.getElementById('confirm-modal-backdrop');
-const confirmIcon      = document.getElementById('confirm-icon');
-const confirmTitle     = document.getElementById('confirm-title');
-const confirmSub       = document.getElementById('confirm-sub');
-const confirmCloseBtn  = document.getElementById('confirm-close-btn');
+const confirmBackdrop = document.getElementById('confirm-modal-backdrop');
+const confirmIcon = document.getElementById('confirm-icon');
+const confirmTitle = document.getElementById('confirm-title');
+const confirmSub = document.getElementById('confirm-sub');
+const confirmCloseBtn = document.getElementById('confirm-close-btn');
 
 function showConfirm(icon, title, sub) {
-    confirmIcon.textContent  = icon;
+    confirmIcon.textContent = icon;
     confirmTitle.textContent = title;
-    confirmSub.textContent   = sub;
+    confirmSub.textContent = sub;
     confirmBackdrop.classList.add('open');
     document.body.style.overflow = 'hidden';
 }
@@ -476,11 +494,11 @@ if (confirmCloseBtn) confirmCloseBtn.addEventListener('click', closeConfirm);
 if (confirmBackdrop) confirmBackdrop.addEventListener('click', (e) => { if (e.target === confirmBackdrop) closeConfirm(); });
 
 // -- hamburger / mobile nav --
-const hamburger       = document.getElementById('hamburger');
+const hamburger = document.getElementById('hamburger');
 const mobileNavOverlay = document.getElementById('mobile-nav-overlay');
-const mobileNavLinks  = mobileNavOverlay ? mobileNavOverlay.querySelectorAll('a') : [];
+const mobileNavLinks = mobileNavOverlay ? mobileNavOverlay.querySelectorAll('a') : [];
 
-function openMobileNav()  { document.body.classList.add('nav-open'); document.body.style.overflow = 'hidden'; hamburger && hamburger.setAttribute('aria-expanded', 'true'); }
+function openMobileNav() { document.body.classList.add('nav-open'); document.body.style.overflow = 'hidden'; hamburger && hamburger.setAttribute('aria-expanded', 'true'); }
 function closeMobileNav() { document.body.classList.remove('nav-open'); document.body.style.overflow = ''; hamburger && hamburger.setAttribute('aria-expanded', 'false'); }
 
 if (hamburger) {
@@ -502,11 +520,11 @@ if (mobileNavOverlay) {
 
 // -- sync mobile nav active highlight with desktop scroll-spy via MutationObserver --
 const mobileNavMap = {
-    home:     document.getElementById('mnav-home'),
+    home: document.getElementById('mnav-home'),
     flavours: document.getElementById('mnav-flavours'),
-    events:   document.getElementById('mnav-events'),
-    news:     document.getElementById('mnav-news'),
-    game:     document.getElementById('mnav-game'),
+    events: document.getElementById('mnav-events'),
+    news: document.getElementById('mnav-news'),
+    game: document.getElementById('mnav-game'),
 };
 
 const navObserver = new MutationObserver(() => {
